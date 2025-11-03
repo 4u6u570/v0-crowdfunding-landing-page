@@ -205,4 +205,18 @@
     -webkit-text-fill-color: transparent;
     background-clip: text;
   }
+
+  /* Added custom modal positioning for desktop centering */
+  @media (width >= 40rem) {
+    .modal-login-container {
+      margin-top: 70rem;
+    }
+  }
+
+  /* Mobile and small tablet positioning */
+  @media (width < 40rem) {
+    .modal-login-container {
+      margin-top: 12rem;
+    }
+  }
 }

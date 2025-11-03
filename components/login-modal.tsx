@@ -74,7 +74,7 @@ export function LoginModal({ isOpen, onClose }: { isOpen: boolean; onClose: () =
       role="presentation"
     >
       <div
-        className="relative w-full max-w-md bg-white rounded-2xl shadow-2xl max-h-[95vh] overflow-y-auto mt-12 sm:mt-0"
+        className="relative w-full max-w-md bg-white rounded-2xl shadow-2xl max-h-[95vh] overflow-y-auto modal-login-container"
         onClick={(e) => e.stopPropagation()}
         role="dialog"
         aria-modal="true"
