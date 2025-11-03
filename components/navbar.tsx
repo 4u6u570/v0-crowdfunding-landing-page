@@ -10,6 +10,7 @@ export function Navbar() {
   const [activeSection, setActiveSection] = useState("inicio")
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [loginModalOpen, setLoginModalOpen] = useState(false)
+  const [mobileDrawerOpen, setMobileDrawerOpen] = useState(false)
 
   useEffect(() => {
     const handleScroll = () => {
@@ -96,10 +97,10 @@ export function Navbar() {
 
           <button
             className="md:hidden p-2 rounded-lg hover:bg-gray-100 transition-colors"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            onClick={() => setMobileDrawerOpen(!mobileDrawerOpen)}
             aria-label="Toggle menu"
           >
-            {mobileMenuOpen ? (
+            {mobileDrawerOpen ? (
               // Close icon
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -113,46 +114,69 @@ export function Navbar() {
           </button>
         </div>
 
-        {mobileMenuOpen && (
-          <div className="md:hidden border-t border-border bg-white/95 backdrop-blur-md animate-fade-in">
-            <div className="flex flex-col space-y-4 px-4 py-4">
-              {navLinks.map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  onClick={handleNavClick}
-                  className={`text-base font-medium transition-colors py-2 ${
-                    activeSection === link.href.slice(1) ? "text-foreground" : "text-muted-foreground"
-                  }`}
+        {mobileDrawerOpen && (
+          <>
+            {/* Overlay for drawer */}
+            <div
+              className="fixed inset-0 z-40 bg-black/50 md:hidden"
+              onClick={() => setMobileDrawerOpen(false)}
+              aria-hidden="true"
+            />
+
+            {/* Drawer content */}
+            <div className="fixed left-0 top-0 bottom-0 z-50 w-64 bg-white shadow-lg animate-fade-in md:hidden overflow-y-auto">
+              <div className="p-6 space-y-6">
+                <button
+                  onClick={() => setMobileDrawerOpen(false)}
+                  className="p-2 hover:bg-gray-100 rounded-full transition-colors flex ml-auto"
+                  aria-label="Cerrar drawer"
                 >
-                  {link.label}
-                </Link>
-              ))}
-              <div className="border-t border-border pt-4 flex flex-col gap-2">
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => {
-                    setLoginModalOpen(true)
-                    handleNavClick()
-                  }}
-                  className="justify-start"
-                >
-                  Iniciar sesión
-                </Button>
-                <Button
-                  size="sm"
-                  className="text-white hover:opacity-90 transition-opacity justify-start"
-                  style={{ background: "linear-gradient(90deg, #FF7B5F 0%, #FF3D8A 100%)" }}
-                  asChild
-                >
-                  <Link href="/register" onClick={handleNavClick}>
-                    Comenzar
-                  </Link>
-                </Button>
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+
+                <div className="space-y-4 pt-4">
+                  {navLinks.map((link) => (
+                    <Link
+                      key={link.href}
+                      href={link.href}
+                      onClick={() => setMobileDrawerOpen(false)}
+                      className={`block text-base font-medium transition-colors py-2 ${
+                        activeSection === link.href.slice(1) ? "text-foreground" : "text-muted-foreground"
+                      }`}
+                    >
+                      {link.label}
+                    </Link>
+                  ))}
+                </div>
+
+                <div className="border-t border-border pt-4 space-y-2">
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => {
+                      setLoginModalOpen(true)
+                      setMobileDrawerOpen(false)
+                    }}
+                    className="w-full justify-start"
+                  >
+                    Iniciar sesión
+                  </Button>
+                  <Button
+                    size="sm"
+                    className="w-full text-white hover:opacity-90 transition-opacity justify-start"
+                    style={{ background: "linear-gradient(90deg, #FF7B5F 0%, #FF3D8A 100%)" }}
+                    asChild
+                  >
+                    <Link href="/register" onClick={() => setMobileDrawerOpen(false)}>
+                      Comenzar
+                    </Link>
+                  </Button>
+                </div>
               </div>
             </div>
-          </div>
+          </>
         )}
       </div>
 
